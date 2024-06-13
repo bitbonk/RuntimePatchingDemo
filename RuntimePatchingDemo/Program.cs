@@ -1,15 +1,25 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using RuntimePatchingDemo;
 
-using RuntimePatchingDemo;
+var patchee = new SomeClassToPatch();
 
-MyPatcher.DoPatching();
-
-var game = new SomeGameClass();
+bool isPatched = false;
 
 while (true)
 {
-    var count = game.DoSomething();
-    await Task.Delay(1000);
-    Console.WriteLine($"running: {count}");
+    Console.WriteLine();
+    if (!isPatched)
+    {
+        Console.WriteLine("Should the patch be applied now? (y)");
+        isPatched = Console.ReadKey().KeyChar == 'y';
+        if (isPatched)
+        {
+            MyPatcher.DoPatching();
+            Console.WriteLine("Patch applied");
+        }
+    }
+    
+    var count = patchee.Count();
+    await Task.Delay(100);
+    Console.WriteLine($"resulting counter: {count}");
 }
 

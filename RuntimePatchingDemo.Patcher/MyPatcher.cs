@@ -12,15 +12,16 @@ public class MyPatcher
 
     public static void DoPatching()
     {
-        var patchesAssembly = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "RuntimePatchingDemo.Patches.dll");
+        var patchesAssemblyPath = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), "RuntimePatchingDemo.Patches.dll");
 
-        Console.WriteLine($"Loading patches assembly {patchesAssembly}");
+        Console.WriteLine($"Loading patches assembly {patchesAssemblyPath}");
         
-        AssemblyLoadContext.Default.LoadFromAssemblyPath(patchesAssembly);
+        var patchesAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(patchesAssemblyPath);
         
         var harmony = new Harmony("com.example.patch");
 
-        Console.WriteLine($"Patching {new StackTrace().GetFrame(1).GetMethod().ReflectedType.Assembly.Location}");
-        harmony.PatchAll();
+        Console.WriteLine($"Patching {patchesAssembly.Location}");
+        
+        harmony.PatchAll(patchesAssembly);
     }
 }
