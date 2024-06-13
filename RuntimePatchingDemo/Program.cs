@@ -2,7 +2,7 @@
 
 var patchee = new SomeClassToPatch();
 
-bool isPatched = false;
+var isPatched = false;
 
 while (true)
 {
@@ -17,9 +17,8 @@ while (true)
             Console.WriteLine("Patch applied");
         }
     }
-    
+
     var count = patchee.Count();
     await Task.Delay(100);
     Console.WriteLine($"resulting counter: {count}");
 }
-

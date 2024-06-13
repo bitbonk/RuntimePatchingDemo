@@ -2,8 +2,8 @@
 
 public class SomeClassToPatch
 {
-    public bool isRunning;
-    public int counter;
+    private int counter;
+    private bool isRunning;
 
     public int Count()
     {
@@ -14,9 +14,9 @@ public class SomeClassToPatch
         }
         else
         {
-            Console.WriteLine($"patchee: It is not running");
+            Console.WriteLine("patchee: it is not running");
         }
-        
+
         return counter * 10;
     }
 }

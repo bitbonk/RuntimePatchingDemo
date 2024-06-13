@@ -4,14 +4,15 @@ namespace RuntimePatchingDemo.Patches;
 
 [HarmonyPatch(typeof(SomeClassToPatch))]
 [HarmonyPatch(nameof(SomeClassToPatch.Count))]
-class Patch01
+internal class Patch01
 {
-    static AccessTools.FieldRef<SomeClassToPatch, bool> isRunningRef =
+    private static readonly AccessTools.FieldRef<SomeClassToPatch, bool> isRunningRef =
         AccessTools.FieldRefAccess<SomeClassToPatch, bool>("isRunning");
 
-    static bool Prefix(SomeClassToPatch __instance, ref int ___counter)
+    private static bool Prefix(SomeClassToPatch __instance, ref int ___counter)
     {
         Console.WriteLine("patch: start prefix");
+        Console.WriteLine($"patch: it is running: {isRunningRef(__instance)}");
         isRunningRef(__instance) = true;
         if (___counter > 100)
         {
@@ -27,7 +28,7 @@ class Patch01
         return true;
     }
 
-    static void Postfix(ref int __result)
+    private static void Postfix(ref int __result)
     {
         Console.WriteLine("patch: start postfix");
         Console.WriteLine("patch: doubling the result");
